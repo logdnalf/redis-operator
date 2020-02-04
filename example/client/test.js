@@ -9,7 +9,9 @@ var redis = new Redis({
   sentinels: [
     // This should be the FQDN of the `rfs-ldrs` Kubernetes Service
     // which should work as long as there is a Sentinel up and running
-    { host: "10.233.48.161", port: 26379 },
+
+        { host: "rfs-ldrs", port: 26379 },
+    //  { host: "10.233.48.161", port: 26379 },
   ],
   name: "mymaster"
 });
@@ -18,14 +20,14 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-function dumpStats(iterations, initial, current) {
-  util.log(sprintf("total iterations: %-10d  initial value: %-10d  current value: %-10d", iterations, initial, current))
+function dumpStats(key, iterations, initial, current) {
+  util.log(sprintf("key: %-20s  total iterations: %-10d  initial value: %-10d  current value: %-10d", key, iterations, initial, current))
 }
 
 function onExit() {
   redis.get(key).then(function(final) {
     util.log('exitting...')
-    dumpStats(iterations, value, final)
+    dumpStats(key, iterations, value, final)
     redis.del(key)
     redis.quit()
     process.exit(0)
@@ -38,12 +40,12 @@ process.on('SIGTERM', onExit)
 var iterations = 0
 var key = sprintf("test-key-%05d", getRandomInt(1000))
 var value = getRandomInt(10)
-util.log(sprintf("key: %-23s  initial value: %-10d", key, value))
+dumpStats(key, iterations, value, value)
 redis.set(key, value)
 
 function dumpCounter() {
   redis.get(key).then(function(current) {
-    dumpStats(iterations, value, current)
+    dumpStats(key, iterations, value, current)
   });
 }
 setInterval(dumpCounter, 1000); //time is in ms
