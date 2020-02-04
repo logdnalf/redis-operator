@@ -1,0 +1,38 @@
+{
+   "apiVersion": "v1",
+   "items": [
+      {
+         "apiVersion": "extensions/v1beta1",
+         "kind": "Deployment",
+         "metadata": {
+            "name": "redis-test"
+         },
+         "spec": {
+            "replicas": 3,
+            "template": {
+               "metadata": {
+                  "labels": {
+                     "app": "redis-test"
+                  }
+               },
+               "spec": {
+                  "containers": [
+                     {
+                        "image": "falfaro/redis_test:latest",
+                        "imagePullPolicy": "Always",
+                        "name": "redis-test"
+                     }
+                  ],
+                  "securityContext": {
+                     "fsGroup": 1000,
+                     "runAsGroup": 1000,
+                     "runAsUser": 1000
+                  },
+                  "terminationGracePeriodSeconds": 10
+               }
+            }
+         }
+      }
+   ],
+   "kind": "List"
+}
