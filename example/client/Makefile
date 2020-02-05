@@ -13,5 +13,5 @@ logs: apply
 image: Dockerfile
 	docker build -t falfaro/redis_test .
 
-push: Dockerfile
+push: image
 	docker push falfaro/redis_test

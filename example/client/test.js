@@ -9,11 +9,30 @@ var redis = new Redis({
   sentinels: [
     // This should be the FQDN of the `rfs-ldrs` Kubernetes Service
     // which should work as long as there is a Sentinel up and running
-
         { host: "rfs-ldrs", port: 26379 },
     //  { host: "10.233.48.161", port: 26379 },
   ],
   name: "mymaster"
+});
+
+redis.on('error', function(err) {
+  if (err.toString().indexOf('ECONNRESET') < 0 &&
+      err.toString().indexOf('ECONNREFUSED') < 0 &&
+      err.toString().indexOf('EHOSTUNREACH') < 0 &&
+      err.toString().indexOf('ETIMEDOUT') < 0) {
+    util.log(sprintf('Redis error: %s', err.toString()))
+  } else {
+    util.log(sprintf('Redis error: %s', (err.stack || '').split('\r\n')))
+  }
+});
+redis.on('end', function() {
+  util.log('Redis  error: connection lost. No more retries.')
+});
+redis.on('reconnecting', function() {
+  util.log('Redis error: reconnecting error')
+});
+redis.on('ready', function() {
+  util.log('Connected to Redis.')
 });
 
 function getRandomInt(max) {
@@ -44,8 +63,12 @@ dumpStats(key, iterations, value, value)
 redis.set(key, value)
 
 function dumpCounter() {
-  redis.get(key).then(function(current) {
-    dumpStats(key, iterations, value, current)
+  redis.get(key, function(err, current) {
+    if (err != undefined) {
+      console.log(err)
+    } else {
+      dumpStats(key, iterations, value, current)
+    }
   });
 }
 setInterval(dumpCounter, 1000); //time is in ms
