@@ -14,5 +14,5 @@ logs: apply
 image:
 	docker build -t falfaro/redis_test_python .
 
-push:
+push: image
 	docker push falfaro/redis_test_python

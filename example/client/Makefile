@@ -8,6 +8,7 @@ delete: test.yaml
 	kubectl delete -f test.yaml
 
 logs: apply
+	kubectl wait --for=condition=available --timeout=600s deployment/redis-test
 	kubectl logs -f -l app=redis-test
 
 image: Dockerfile
