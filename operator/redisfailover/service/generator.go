@@ -22,8 +22,6 @@ const (
 	// Template used to build the Redis configuration
 	redisConfigTemplate = `slaveof 127.0.0.1 6379
 tcp-keepalive 60
-save 900 1
-save 300 10
 {{- range .Spec.Redis.CustomCommandRenames}}
 rename-command "{{.From}}" "{{.To}}"
 {{- end}}
