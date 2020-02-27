@@ -62,19 +62,23 @@ var key = sprintf("test-key-%05d", getRandomInt(1000))
 dumpStats(key, iterations, 0)
 
 function dumpCounter() {
- redis.get(key).then(function(current) {
-   dumpStats(key, iterations, current)
- }).catch(function (error) {
-   console.error(error)
- })
+  redis.get(key, function(err, current) {
+    if (err != undefined) {
+      console.log(err)
+    } else {
+      dumpStats(key, iterations, current)
+    }
+  })
 }
 setInterval(dumpCounter, 1000); //time is in ms
 
 function incCounter() {
-  redis.incr(key).then(function() {
-    iterations++
-  }).catch(function (error) {
-    console.error(error)
+  redis.incr(key, function(err, current) {
+    if (err != undefined) {
+      console.log(err)
+    } else {
+      iterations++
+    }
   })
 }
 setInterval(incCounter, 10); //time is in ms
