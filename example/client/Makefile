@@ -1,3 +1,6 @@
+bootstrap:
+	brew install jsonnet sshuttle kubernetes-cli
+
 test.yaml: test.jsonnet
 	jsonnet -J vendor/ test.jsonnet > test.yaml
 
