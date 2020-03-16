@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	rediscli "github.com/go-redis/redis"
+	"github.com/spotahome/redis-operator/log"
 )
 
 // Client defines the functions neccesary to connect to redis and sentinel to get or set what we nned
@@ -167,8 +168,10 @@ func (c *client) IsMaster(ip, password string) (bool, error) {
 	defer rClient.Close()
 	info, err := rClient.Info("replication").Result()
 	if err != nil {
+		log.Infof("IsMaster(%s) returned error %v", err)
 		return false, err
 	}
+	log.Infof("IsMaster(%s) returned %s", ip, info)
 	return strings.Contains(info, redisRoleMaster), nil
 }
 

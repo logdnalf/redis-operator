@@ -161,7 +161,7 @@ func (r *RedisFailoverHandler) CheckAndHeal(rf *redisfailoverv1.RedisFailover) e
 		return err
 	}
 	for _, sip := range sentinels {
-		if err := r.rfChecker.CheckSentinelMonitor(sip, master); err != nil {
+		if err := r.rfChecker.CheckSentinelMonitor(sip, master, ""); err != nil {
 			r.logger.Debug("Sentinel is not monitoring the correct master")
 			if err := r.rfHealer.NewSentinelMonitor(sip, master, rf); err != nil {
 				return err

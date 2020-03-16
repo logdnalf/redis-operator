@@ -359,7 +359,7 @@ func TestCheckSentinelMonitorGetSentinelMonitorError(t *testing.T) {
 
 	checker := rfservice.NewRedisFailoverChecker(ms, mr, log.DummyLogger{})
 
-	err := checker.CheckSentinelMonitor("0.0.0.0", "1.1.1.1")
+	err := checker.CheckSentinelMonitor("0.0.0.0", "1.1.1.1", "")
 	assert.Error(err)
 }
 
@@ -372,7 +372,7 @@ func TestCheckSentinelMonitorMismatch(t *testing.T) {
 
 	checker := rfservice.NewRedisFailoverChecker(ms, mr, log.DummyLogger{})
 
-	err := checker.CheckSentinelMonitor("0.0.0.0", "1.1.1.1")
+	err := checker.CheckSentinelMonitor("0.0.0.0", "1.1.1.1", "")
 	assert.Error(err)
 }
 
@@ -385,7 +385,7 @@ func TestCheckSentinelMonitor(t *testing.T) {
 
 	checker := rfservice.NewRedisFailoverChecker(ms, mr, log.DummyLogger{})
 
-	err := checker.CheckSentinelMonitor("0.0.0.0", "1.1.1.1")
+	err := checker.CheckSentinelMonitor("0.0.0.0", "1.1.1.1", "")
 	assert.NoError(err)
 }
 

@@ -21,7 +21,7 @@ type RedisFailoverCheck interface {
 	CheckAllSlavesFromMaster(master string, rFailover *redisfailoverv1.RedisFailover) error
 	CheckSentinelNumberInMemory(sentinel string, rFailover *redisfailoverv1.RedisFailover) error
 	CheckSentinelSlavesNumberInMemory(sentinel string, rFailover *redisfailoverv1.RedisFailover) error
-	CheckSentinelMonitor(sentinel string, monitor ...string) error
+	CheckSentinelMonitor(sentinel, monitorIP, monitorPort string) error
 	GetMasterIP(rFailover *redisfailoverv1.RedisFailover) (string, error)
 	GetNumberMasters(rFailover *redisfailoverv1.RedisFailover) (int, error)
 	GetRedisesIPs(rFailover *redisfailoverv1.RedisFailover) ([]string, error)
@@ -121,12 +121,7 @@ func (r *RedisFailoverChecker) CheckSentinelSlavesNumberInMemory(sentinel string
 }
 
 // CheckSentinelMonitor controls if the sentinels are monitoring the expected master
-func (r *RedisFailoverChecker) CheckSentinelMonitor(sentinel string, monitor ...string) error {
-	monitorIP := monitor[0]
-	monitorPort := ""
-	if len(monitor) > 1 {
-		monitorPort = monitor[1]
-	}
+func (r *RedisFailoverChecker) CheckSentinelMonitor(sentinel, monitorIP, monitorPort string) error {
 	actualMonitorIP, actualMonitorPort, err := r.redisClient.GetSentinelMonitor(sentinel)
 	if err != nil {
 		return err

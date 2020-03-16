@@ -4,10 +4,10 @@ VERSION := v1.0.0
 SERVICE_NAME := redis-operator
 
 # Docker image name for this project
-IMAGE_NAME := spotahome/$(SERVICE_NAME)
+IMAGE_NAME := falfaro/$(SERVICE_NAME)
 
 # Repository url for this project
-REPOSITORY := quay.io/$(IMAGE_NAME)
+REPOSITORY := $(IMAGE_NAME)
 
 # Shell to use for running scripts
 SHELL := $(shell which bash)
@@ -94,9 +94,6 @@ tag:
 
 .PHONY: publish
 publish:
-	@COMMIT_VERSION="$$(git rev-list -n 1 $(VERSION))"; \
-	docker tag $(REPOSITORY):"$$COMMIT_VERSION" $(REPOSITORY):$(VERSION)
-	docker push $(REPOSITORY):$(VERSION)
 	docker push $(REPOSITORY):latest
 
 .PHONY: release

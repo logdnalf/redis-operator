@@ -1,0 +1,15 @@
+apiVersion: databases.spotahome.com/v1
+kind: RedisFailover
+metadata:
+  name: testing
+spec:
+  redis:
+    replicas: 3
+    exporter:
+      enabled: true
+  sentinel:
+    replicas: 3
+    resources:
+      requests:
+        memory: 250Mi
+        cpu: 0.5

@@ -210,6 +210,7 @@ func (c *clients) testRedisMaster(t *testing.T) {
 
 	for _, pod := range redisPodList.Items {
 		ip := pod.Status.PodIP
+		log.Infof("Checking if Redis at IP %s is master...", ip)
 		if ok, _ := c.redisClient.IsMaster(ip, testPass); ok {
 			masters = append(masters, ip)
 		}
