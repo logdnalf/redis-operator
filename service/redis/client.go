@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	rediscli "github.com/go-redis/redis"
-	"github.com/spotahome/redis-operator/log"
 )
 
 // Client defines the functions neccesary to connect to redis and sentinel to get or set what we nned
