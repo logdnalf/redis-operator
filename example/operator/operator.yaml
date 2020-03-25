@@ -4,6 +4,7 @@ metadata:
   labels:
     app: redisoperator
   name: redisoperator
+  namespace: felipe
 spec:
   replicas: 1
   selector:

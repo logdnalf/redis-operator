@@ -8,7 +8,7 @@
     "start": "node test.js"
   },
   "dependencies": {
-    "ioredis": "^4.14.1",
+    "ioredis": "^4.16.0",
     "sprintf-js": "^1.1.2"
   }
 }

@@ -1,0 +1,22 @@
+apiVersion: databases.spotahome.com/v1
+kind: RedisFailover
+metadata:
+  name: ldrs
+  namespace: felipe
+spec:
+  sentinel:
+    replicas: 3
+    resources:
+      requests:
+        cpu: 1
+      limits:
+        memory: 100Mi
+  redis:
+    replicas: 3
+    resources:
+      requests:
+        cpu: 2
+        memory: 4G
+      limits:
+        cpu: 2
+        memory: 4G
